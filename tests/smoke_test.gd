@@ -16,9 +16,29 @@ func _run() -> void:
 		assert(model.survival_time == final_time, "El reloj debe detenerse")
 		model.reset()
 		assert(model.survival_time == 0.0 and model.angle_degrees == 0.0 and not model.is_game_over)
+	for side: float in [-1.0, 1.0]:
+		var released := BalanceModel.new()
+		released.angle_degrees = side * 5.0
+		released.advance(1.0 / 60.0, false, settings)
+		assert(released.angular_velocity * side > 0.0, "Soltar debe acelerar hacia el lado inclinado")
+		released.angle_degrees = 0.0
+		released.angular_velocity = 0.0
+		released.advance(1.0 / 60.0, false, settings)
+		assert(released.angular_velocity * side > 0.0, "Horizontal debe recordar el último lado")
+		released.reset()
+		released.advance(1.0 / 60.0, false, settings)
+		assert(released.angle_degrees < 0.0, "Reiniciar debe recuperar la caída inicial izquierda")
+	var overshoot := BalanceModel.new()
+	overshoot.angle_degrees = -5.0
+	for frame in range(60):
+		overshoot.advance(1.0 / 60.0, true, settings)
+	assert(overshoot.angle_degrees > 0.0 and not overshoot.is_game_over)
+	for frame in range(600):
+		overshoot.advance(1.0 / 60.0, false, settings)
+	assert(overshoot.is_game_over and overshoot.angle_degrees > 0.0, "Pasarse y soltar debe terminar en caída derecha")
 	var controlled := BalanceModel.new()
 	for frame in range(3600):
-		var correction: bool = controlled.angle_degrees + controlled.angular_velocity * 0.5 < 0.0
+		var correction: bool = controlled.angle_degrees + controlled.angular_velocity * 0.5 < -3.0
 		controlled.advance(1.0 / 60.0, correction, settings)
 	assert(not controlled.is_game_over, "Las correcciones deben permitir sostener el equilibrio")
 	var game: Control = load("res://scenes/game.tscn").instantiate()
