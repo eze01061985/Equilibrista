@@ -42,12 +42,25 @@ func _run() -> void:
 	for frame in range(60):
 		overshoot.advance(1.0 / 60.0, true, settings)
 	assert(overshoot.angle_degrees > 0.0 and not overshoot.is_game_over)
+	var velocity_before_hold: float = overshoot.angular_velocity
+	overshoot.advance(1.0 / 60.0, true, settings)
+	assert(overshoot.angular_velocity > velocity_before_hold, "Mantener debe seguir empujando después de cruzar el centro")
+	overshoot.advance(1.0 / 60.0, false, settings)
 	var velocity_before_correction: float = overshoot.angular_velocity
 	overshoot.advance(1.0 / 60.0, true, settings)
-	assert(overshoot.angular_velocity < velocity_before_correction, "Después de cruzar el centro debe corregir hacia la izquierda")
+	assert(overshoot.angular_velocity < velocity_before_correction, "Soltar y volver a pulsar debe corregir desde el nuevo lado")
 	for frame in range(600):
 		overshoot.advance(1.0 / 60.0, false, settings)
 	assert(overshoot.is_game_over and overshoot.angle_degrees > 0.0, "Pasarse y soltar debe terminar en caída derecha")
+	for side: float in [-1.0, 1.0]:
+		var held := BalanceModel.new()
+		held.angle_degrees = side * 5.0
+		for frame in range(600):
+			held.advance(1.0 / 60.0, true, settings)
+		assert(held.is_game_over and held.angle_degrees * side < 0.0, "Mantener debe causar caída por el lado opuesto")
+		held.reset()
+		held.advance(1.0 / 60.0, true, settings)
+		assert(held.angular_velocity > 0.0, "Reiniciar debe limpiar la dirección de la pulsación anterior")
 	var controlled := BalanceModel.new()
 	for frame in range(3600):
 		var correction: bool = controlled.angle_degrees + controlled.angular_velocity * 0.5 < -3.0
@@ -89,6 +102,18 @@ func _run() -> void:
 	game.ui.retry_button.pressed.emit()
 	assert(not game.model.is_game_over and game.model.survival_time == 0.0)
 	assert(not game.ui.retry_button.visible and not game.player_input.is_pressing())
+	for event: InputEvent in [touch, mouse, key]:
+		game._restart()
+		event.set("pressed", true)
+		Input.parse_input_event(event.duplicate())
+		Input.flush_buffered_events()
+		for frame in range(600):
+			game._physics_process(1.0 / 60.0)
+		assert(game.model.is_game_over and game.model.angle_degrees > 0.0, "Touch, click y espacio mantenidos deben causar sobrecorrección")
+		event.set("pressed", false)
+		Input.parse_input_event(event.duplicate())
+		Input.flush_buffered_events()
+	game._restart()
 	if DisplayServer.get_name() != "headless":
 		await process_frame
 		await RenderingServer.frame_post_draw
