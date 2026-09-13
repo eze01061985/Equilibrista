@@ -22,7 +22,7 @@ func advance(delta: float, pressing: bool, settings: BalanceSettings) -> void:
 		fall_direction = signf(angle_degrees)
 	var torque: float = fall_direction * settings.natural_torque
 	if pressing:
-		torque += settings.player_right_torque * settings.sensitivity
+		torque -= fall_direction * settings.player_torque * settings.sensitivity
 	angular_velocity += torque * settings.acceleration * delta
 	angular_velocity /= 1.0 + settings.damping * delta
 	angle_degrees += angular_velocity * delta

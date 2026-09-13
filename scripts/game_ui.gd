@@ -22,7 +22,7 @@ func _ready() -> void:
 	footer.offset_bottom = -40
 	footer.add_theme_constant_override("separation", 16)
 	add_child(footer)
-	status_label = _label("Mantené para inclinar a la derecha\nAl soltar, cae hacia el lado inclinado", 21)
+	status_label = _label("Mantené para corregir hacia el centro\nAl soltar, cae hacia el lado inclinado", 21)
 	footer.add_child(status_label)
 	footer.add_child(_label("TOUCH  /  CLICK  /  ESPACIO", 15))
 	retry_button = Button.new()
@@ -38,7 +38,7 @@ func _ready() -> void:
 func update_run(time: float, game_over: bool) -> void:
 	timer_label.text = "%.1f s" % time
 	retry_button.visible = game_over
-	status_label.text = "Perdiste el equilibrio" if game_over else "Mantené para inclinar a la derecha\nAl soltar, cae hacia el lado inclinado"
+	status_label.text = "Perdiste el equilibrio" if game_over else "Mantené para corregir hacia el centro\nAl soltar, cae hacia el lado inclinado"
 
 func _label(text: String, font_size: int) -> Label:
 	var label := Label.new()
@@ -47,4 +47,5 @@ func _label(text: String, font_size: int) -> Label:
 	label.add_theme_font_size_override("font_size", font_size)
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return label
+
 

@@ -10,7 +10,7 @@ No se encontró Godot en el Escritorio; no se descargó ni reemplazó el motor.
 Abrir Godot, importar el archivo project.godot de esta carpeta y pulsar F6
 con scenes/game.tscn abierta, o F5 para ejecutar el proyecto.
 La partida comienza automáticamente. Mantener touch, botón izquierdo del mouse
-o espacio para aplicar torque hacia la derecha; al soltar, la fuerza natural actúa hacia el lado inclinado.
+o espacio para aplicar torque hacia el centro desde cualquiera de los dos lados; al soltar, la fuerza natural actúa hacia el lado inclinado.
 Al superar el límite, el reloj se detiene y aparece Volver a intentar.
 Al perder el foco se pausa la simulación y se limpia la entrada.
 
@@ -36,12 +36,12 @@ Guardar la escena después de cambiar valores.
 | --- | --- | --- |
 | Fall Limit Degrees | 25 | Inclinación máxima en cualquiera de los sentidos |
 | Natural Torque | 1 | Fuerza hacia el lado actual de inclinación |
-| Player Right Torque | 2.2 | Fuerza adicional mientras se mantiene pulsado |
+| Player Torque | 2.2 | Fuerza correctora hacia el centro mientras se mantiene pulsado |
 | Acceleration | 24 | Conversión de torque a aceleración angular |
 | Sensitivity | 1 | Multiplicador de entrada del jugador |
 | Damping | 1.4 | Amortiguación de velocidad para facilitar correcciones |
 
-La partida comienza cayendo hacia la izquierda. La fuerza natural sigue el signo del ángulo; exactamente horizontal conserva el último lado. La velocidad mantiene su inercia. El toque sigue empujando hacia la derecha: si te pasás hacia ese lado, soltar ya no rescata la plataforma. Hay que dosificar antes de cruzar el centro.
+La partida comienza cayendo hacia la izquierda. La fuerza natural sigue el signo del ángulo; exactamente horizontal conserva el último lado. La velocidad mantiene su inercia. El toque aplica fuerza opuesta al lado inclinado y cambia de dirección al cruzar el centro. Si te pasás hacia la derecha, podés corregir hacia la izquierda con el mismo control. La corrección frena primero la inercia: no invierte instantáneamente la velocidad.
 
 El torque modifica la velocidad angular y esta modifica el ángulo en pasos
 de física. No usa una simulación física de cuerpos rígidos. El objeto permanece
@@ -91,4 +91,5 @@ de distribución. No guardar claves privadas ni contraseñas en Git.
 Sin monedas, tienda, skins, anuncios, login, backend, niveles, historia,
 multijugador, logros ni progreso. Sin assets externos, física perfecta ni
 arquitectura empresarial.
+
 

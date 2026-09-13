@@ -5,18 +5,27 @@ func _initialize() -> void:
 
 func _run() -> void:
 	var settings := BalanceSettings.new()
-	for pressing: bool in [false, true]:
+	for side: float in [-1.0, 1.0]:
 		var model := BalanceModel.new()
+		model.angle_degrees = side * 5.0
 		for frame in range(600):
-			model.advance(1.0 / 60.0, pressing, settings)
+			model.advance(1.0 / 60.0, false, settings)
 		assert(model.is_game_over, "Debe caer en ambos sentidos")
-		assert((model.angle_degrees > 0) == pressing, "Dirección de caída incorrecta")
+		assert(model.angle_degrees * side > 0.0, "Dirección de caída incorrecta")
 		var final_time: float = model.survival_time
-		model.advance(1.0, pressing, settings)
+		model.advance(1.0, false, settings)
 		assert(model.survival_time == final_time, "El reloj debe detenerse")
 		model.reset()
 		assert(model.survival_time == 0.0 and model.angle_degrees == 0.0 and not model.is_game_over)
 	for side: float in [-1.0, 1.0]:
+		var corrected := BalanceModel.new()
+		corrected.angle_degrees = side * 10.0
+		corrected.advance(1.0 / 60.0, true, settings)
+		assert(corrected.angular_velocity * side < 0.0, "El toque debe corregir hacia el centro desde ambos lados")
+		assert(absf(corrected.angle_degrees) < 10.0)
+		corrected.angular_velocity = side * 5.0
+		corrected.advance(1.0 / 60.0, true, settings)
+		assert(corrected.angular_velocity * side < 5.0, "La corrección debe frenar la caída existente")
 		var released := BalanceModel.new()
 		released.angle_degrees = side * 5.0
 		released.advance(1.0 / 60.0, false, settings)
@@ -33,6 +42,9 @@ func _run() -> void:
 	for frame in range(60):
 		overshoot.advance(1.0 / 60.0, true, settings)
 	assert(overshoot.angle_degrees > 0.0 and not overshoot.is_game_over)
+	var velocity_before_correction: float = overshoot.angular_velocity
+	overshoot.advance(1.0 / 60.0, true, settings)
+	assert(overshoot.angular_velocity < velocity_before_correction, "Después de cruzar el centro debe corregir hacia la izquierda")
 	for frame in range(600):
 		overshoot.advance(1.0 / 60.0, false, settings)
 	assert(overshoot.is_game_over and overshoot.angle_degrees > 0.0, "Pasarse y soltar debe terminar en caída derecha")
