@@ -24,7 +24,11 @@ func _physics_process(delta: float) -> void:
 func _restart() -> void:
 	player_input.clear()
 	model.reset()
+	game_view.angle_degrees = 0.0
+	game_view.lost = false
+	game_view.pressing = false
 	game_view.fall_progress = 0.0
+	game_view.queue_redraw()
 	ui.update_run(0.0, false)
 
 func _notification(what: int) -> void:
