@@ -1,0 +1,6 @@
+.godot/
+builds/
+*.keystore
+*.jks
+.godot/export_credentials.cfg
+android/build/
