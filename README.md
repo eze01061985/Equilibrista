@@ -63,34 +63,44 @@ la prueba con renderizado OpenGL en Windows y se inspeccionó una captura.
 Esto no reemplaza una prueba táctil en un dispositivo Android ni valida todavía
 si el balance resulta divertido para una persona.
 
-## Android: preparado, sin APK generado
+## Android: APK de prueba generado
 
-El intento real de exportación identificó estos bloqueos:
+Se instalaron y configuraron con autorización del usuario:
 
-- Faltan las plantillas de exportación 4.6.1.stable (android_debug.apk y android_release.apk).
-- Godot no tiene una ruta válida de Java SDK configurada; Java no se encontró en PATH.
-- La ruta configurada C:\Users\damer\AppData\Local\Android\Sdk no existe.
-  Faltan platform-tools/adb y build-tools/apksigner.
+- Temurin OpenJDK 17.0.20.1 en C:\Users\damer\AppData\Local\EquilibristaTools\jdk\jdk-17.0.20.1+1.
+- Android SDK en C:\Users\damer\AppData\Local\Android\Sdk: platform-tools 37.0.1, build-tools 35.0.1, plataforma Android 35 y herramientas de línea de comandos.
+- Plantillas Android de Godot 4.6.1.stable en la carpeta de plantillas del editor.
+- Clave de depuración en AppData\Roaming\Godot\keystores\debug.keystore, fuera de Git.
 
-No se instaló software ni se cambiaron configuraciones globales.
-Para continuar, instalar/configurar con autorización OpenJDK 17, Android SDK y
-las plantillas correspondientes a esta misma versión de Godot.
-La documentación 4.6 especifica platform-tools, build-tools 35.0.1,
-platforms android-35, cmdline-tools latest, cmake 3.10.2.4988404 y NDK 28.1.13356709:
-https://docs.godotengine.org/en/4.6/tutorials/export/exporting_for_android.html
+Las rutas de Java y Android SDK quedaron configuradas en Godot. No se reemplazó
+el motor ni se modificó el PATH global. La exportación usa plantillas precompiladas,
+sin Gradle: no fue necesario instalar NDK ni CMake para este APK.
+Se activó la importación ETC2/ASTC requerida por el exportador y se agregó un ícono
+simple basado en las primitivas del juego.
 
-Después, establecer Java SDK Path y Android SDK Path en las opciones del editor,
-abrir Proyecto > Exportar > Android y exportar con depuración a builds/Equilibrista.apk.
-Probar el APK en un teléfono: pulsar/soltar, multitouch, reintento, cambio de foco,
-distintas relaciones de aspecto. No se generó APK ni se publicó nada.
-La publicación en tienda queda para otro hito; requiere firma release y su proceso
-de distribución. No guardar claves privadas ni contraseñas en Git.
+Resultado: builds/Equilibrista.apk, firmado para pruebas, ARM de 32 y 64 bits.
+Para regenerarlo, abrir Proyecto > Exportar > Android > Exportar proyecto con
+la opción de depuración activada, o ejecutar desde esta carpeta:
+
+```powershell
+& 'C:\Users\damer\Downloads\Godot_v4.6.1-stable_win64.exe\Godot_v4.6.1-stable_win64_console.exe' --headless --path . --export-debug Android builds/Equilibrista.apk
+```
+
+Copiar el APK al teléfono y abrirlo para instalar; permitir la instalación desde
+esa aplicación si Android lo solicita. Probar pulsaciones cortas, pulsación sostenida,
+reintento y cambio de foco. La firma se verifica con apksigner; aún falta probarlo
+manualmente en un teléfono físico. No se publicó en una tienda.
+La publicación requiere firma release y el proceso correspondiente de distribución.
+No guardar claves privadas ni contraseñas en Git.
+
+Referencia: https://docs.godotengine.org/en/4.6/tutorials/export/exporting_for_android.html
 
 ## Fuera de alcance
 
 Sin monedas, tienda, skins, anuncios, login, backend, niveles, historia,
 multijugador, logros ni progreso. Sin assets externos, física perfecta ni
 arquitectura empresarial.
+
 
 
 
