@@ -33,6 +33,7 @@ func advance(delta: float, pressing: bool, settings: BalanceSettings) -> void:
 		torque += push_direction * settings.player_torque * settings.sensitivity
 	angular_velocity += torque * settings.acceleration * delta
 	angular_velocity /= 1.0 + settings.damping * delta
+	angular_velocity = clampf(angular_velocity, -settings.max_angular_speed, settings.max_angular_speed)
 	angle_degrees += angular_velocity * delta
 	survival_time += delta
 	is_game_over = absf(angle_degrees) >= settings.fall_limit_degrees

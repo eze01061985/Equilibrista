@@ -7,6 +7,9 @@ var model := BalanceModel.new()
 @onready var ui: Control = $UI
 
 func _ready() -> void:
+	game_view.settings = settings
+	game_view.limit_degrees = settings.fall_limit_degrees
+	game_view.reset_feedback()
 	ui.retry_requested.connect(_restart)
 
 func _physics_process(delta: float) -> void:
@@ -18,7 +21,7 @@ func _physics_process(delta: float) -> void:
 	game_view.lost = model.is_game_over
 	if model.is_game_over:
 		game_view.fall_progress = minf(game_view.fall_progress + delta * 1.6, 1.0)
-	game_view.queue_redraw()
+	game_view.update_feedback(delta)
 	ui.update_run(model.survival_time, model.is_game_over)
 
 func _restart() -> void:
@@ -28,6 +31,7 @@ func _restart() -> void:
 	game_view.lost = false
 	game_view.pressing = false
 	game_view.fall_progress = 0.0
+	game_view.reset_feedback()
 	game_view.queue_redraw()
 	ui.update_run(0.0, false)
 

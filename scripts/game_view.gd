@@ -6,6 +6,23 @@ var limit_degrees: float = 25.0
 var pressing: bool = false
 var lost: bool = false
 var fall_progress: float = 0.0
+var settings: BalanceSettings
+var bar_color: Color
+var loss_elapsed: float = 0.0
+
+func reset_feedback() -> void:
+	bar_color = settings.safe_color
+	loss_elapsed = 0.0
+
+func update_feedback(delta: float) -> void:
+	var target: Color = settings.danger_color(angle_degrees, lost)
+	if lost or settings.color_transition_seconds <= 0.0:
+		bar_color = target
+	else:
+		bar_color = bar_color.lerp(target, 1.0 - exp(-delta / settings.color_transition_seconds))
+	if lost:
+		loss_elapsed += delta
+	queue_redraw()
 
 func _draw() -> void:
 	var center: Vector2 = size * Vector2(0.5, 0.52)
@@ -16,7 +33,6 @@ func _draw() -> void:
 		var direction := Vector2.RIGHT.rotated(deg_to_rad(limit_degrees * limit_sign))
 		draw_line(-direction * 210.0, direction * 210.0, muted, 2.0, true)
 	draw_colored_polygon(PackedVector2Array([Vector2(-24, 64), Vector2(24, 64), Vector2(0, 9)]), muted)
-	var bar_color := Color("#ff7b7b") if lost else Color("#64e2cb")
 	draw_set_transform(center, deg_to_rad(angle_degrees), Vector2.ONE * scale_factor)
 	draw_style_box(_bar_style(bar_color), Rect2(-BAR_HALF_WIDTH, -8, BAR_HALF_WIDTH * 2, 16))
 	var object_position := Vector2(0, -31)
@@ -28,6 +44,10 @@ func _draw() -> void:
 	draw_set_transform(Vector2.ZERO)
 	if pressing and not lost:
 		draw_circle(center + Vector2(0, 110 * scale_factor), 6, Color("#64e2cb"))
+	if lost and loss_elapsed < settings.loss_flash_seconds:
+		var flash: Color = settings.critical_color
+		flash.a = settings.loss_flash_opacity * (1.0 - loss_elapsed / settings.loss_flash_seconds)
+		draw_rect(Rect2(Vector2.ZERO, size), flash)
 
 func _bar_style(color: Color) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()

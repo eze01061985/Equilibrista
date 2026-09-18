@@ -41,6 +41,8 @@ func _run() -> void:
 	overshoot.angle_degrees = -5.0
 	for frame in range(60):
 		overshoot.advance(1.0 / 60.0, true, settings)
+		if overshoot.angle_degrees > 0.0:
+			break
 	assert(overshoot.angle_degrees > 0.0 and not overshoot.is_game_over)
 	var velocity_before_hold: float = overshoot.angular_velocity
 	overshoot.advance(1.0 / 60.0, true, settings)
