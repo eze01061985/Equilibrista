@@ -1,4 +1,4 @@
-# Equilibrista — MVP 0.1
+# Equilibrista — Versión 0.2
 
 Proyecto para Godot 4.6.1 estable, GDScript y renderizador Compatibility.
 Instalación detectada y utilizada:
@@ -34,12 +34,12 @@ Guardar la escena después de cambiar valores.
 
 | Parámetro | Inicial | Función |
 | --- | --- | --- |
-| Fall Limit Degrees | 25 | Inclinación máxima en cualquiera de los sentidos |
-| Natural Torque | 1 | Fuerza hacia el lado actual de inclinación |
-| Player Torque | 2.2 | Fuerza de empuje, con dirección fija durante cada pulsación |
-| Acceleration | 24 | Conversión de torque a aceleración angular |
+| Fall Limit Degrees | 14 | Inclinación máxima en cualquiera de los sentidos |
+| Natural Torque | 1.2 | Fuerza hacia el lado actual de inclinación |
+| Player Torque | 3.4 | Fuerza de empuje, con dirección fija durante cada pulsación |
+| Acceleration | 32 | Conversión de torque a aceleración angular |
 | Sensitivity | 1 | Multiplicador de entrada del jugador |
-| Damping | 1.4 | Amortiguación de velocidad para facilitar correcciones |
+| Damping | 0.45 | Amortiguación de velocidad para facilitar correcciones |
 
 La partida comienza cayendo hacia la izquierda. La fuerza natural sigue el signo del ángulo; exactamente horizontal conserva el último lado. La velocidad mantiene su inercia. Cada pulsación elige una fuerza opuesta al lado inclinado al iniciarse. La dirección permanece fija hasta soltar, incluso al cruzar el centro: mantener presionado termina pasando la barra hacia el lado opuesto. Para corregir desde el nuevo lado hay que soltar y volver a pulsar. La corrección frena primero la inercia: no invierte instantáneamente la velocidad.
 
@@ -48,6 +48,36 @@ de física. No usa una simulación física de cuerpos rígidos. El objeto perman
 encima hasta perder y entonces se anima su caída. El tiempo cuenta solamente
 durante una partida activa. La UI usa anclajes, escalado canvas_items y aspecto
 expand; Android se configura en vertical.
+
+
+| Parámetro adicional | Inicial | Función |
+| --- | --- | --- |
+| Max Angular Speed | 90°/s | Tope de velocidad; la velocidad actual sigue siendo un estado de la simulación |
+| Warning Ratio | 0.40 | Inicio de amarillo, 5.6° con límite 14° |
+| Critical Ratio | 0.75 | Inicio de rojo, 10.5° con límite 14° |
+| Color Transition Seconds | 0.08 s | Constante de suavizado del color, 0 para cambio instantáneo |
+| Loss Flash Seconds | 0.18 s | Duración del flash único al perder |
+| Loss Flash Opacity | 0.12 | Intensidad máxima del flash; 0 para desactivarlo |
+
+En el Inspector, Settings > Gameplay contiene el balance y Settings > Danger Feedback
+contiene umbrales, colores y transiciones. Verde por debajo del 40%, amarillo desde
+40% hasta 75%, rojo desde 75%; derrota a partir del 100%. El cálculo usa el ángulo
+absoluto, por lo que ambos lados son simétricos. Mantener Warning Ratio menor que
+Critical Ratio; si se invierten, el código coloca el umbral crítico por encima del amarillo.
+Los colores Safe Color, Warning Color y Critical Color también son editables.
+
+La versión 0.2 conserva la dirección fija por pulsación y reduce damping para
+retener velocidad al atravesar el centro. Soltar no elimina la inercia. No hay
+centrado automático, variación aleatoria ni dificultad progresiva por tiempo.
+El límite de velocidad evita extremos al experimentar con fuerzas altas.
+
+Validación reproducible adicional: ejecutar tests/balance_v02_test.gd con el mismo
+comando usado para smoke_test.gd. Compara v0.1 y v0.2, comprueba inercia, límite de
+velocidad, colores simétricos, fin del flash y reinicio; con ventana guarda capturas
+en user://. Sin pulsar, caída de 2.15 s a 0.92 s; manteniendo desde el centro,
+de 1.00 s a 0.47 s. Una prueba automatizada de correcciones sigue sobreviviendo
+60 s: esto demuestra controlabilidad, no predice tiempos humanos. La dificultad
+percibida y la diversión requieren una nueva prueba con jugadores.
 
 ## Validación
 
@@ -78,7 +108,7 @@ sin Gradle: no fue necesario instalar NDK ni CMake para este APK.
 Se activó la importación ETC2/ASTC requerida por el exportador y se agregó un ícono
 simple basado en las primitivas del juego.
 
-Resultado: builds/Equilibrista.apk, firmado para pruebas, ARM de 32 y 64 bits.
+Resultado v0.2: builds/Equilibrista-0.2.apk, firmado para pruebas, ARM de 32 y 64 bits.
 Para regenerarlo, abrir Proyecto > Exportar > Android > Exportar proyecto con
 la opción de depuración activada, o ejecutar desde esta carpeta:
 
@@ -100,6 +130,8 @@ Referencia: https://docs.godotengine.org/en/4.6/tutorials/export/exporting_for_a
 Sin monedas, tienda, skins, anuncios, login, backend, niveles, historia,
 multijugador, logros ni progreso. Sin assets externos, física perfecta ni
 arquitectura empresarial.
+
+
 
 
 
