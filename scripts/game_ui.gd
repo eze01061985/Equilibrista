@@ -26,7 +26,7 @@ func _ready() -> void:
 	footer.add_child(status_label)
 	footer.add_child(_label("TOUCH  /  CLICK  /  ESPACIO", 15))
 	retry_button = Button.new()
-	retry_button.text = "Volver a intentar"
+	retry_button.text = "Toca para reintentar"
 	retry_button.custom_minimum_size = Vector2(260, 62)
 	retry_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	retry_button.add_theme_font_size_override("font_size", 23)

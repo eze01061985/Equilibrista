@@ -3,12 +3,11 @@ extends Resource
 
 @export_group("Gameplay")
 @export_range(1.0, 90.0, 0.5) var fall_limit_degrees: float = 14.0
-@export_range(0.1, 5.0, 0.05) var natural_torque: float = 1.2
-@export_range(0.1, 10.0, 0.05) var player_torque: float = 3.4
-@export_range(1.0, 120.0, 1.0) var acceleration: float = 32.0
+@export_range(0.1, 5.0, 0.05) var natural_torque: float = 1.0
+@export_range(0.1, 10.0, 0.05) var player_torque: float = 2.2
+@export_range(1.0, 120.0, 1.0) var acceleration: float = 24.0
 @export_range(0.1, 3.0, 0.05) var sensitivity: float = 1.0
-@export_range(0.0, 5.0, 0.05) var damping: float = 0.45
-@export_range(10.0, 360.0, 1.0) var max_angular_speed: float = 90.0
+@export_range(0.0, 5.0, 0.05) var damping: float = 1.4
 
 @export_group("Danger Feedback")
 @export_range(0.01, 0.98, 0.01) var warning_ratio: float = 0.4

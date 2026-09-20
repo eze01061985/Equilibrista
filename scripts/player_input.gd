@@ -1,5 +1,7 @@
 extends Node
 
+signal pointer_pressed
+
 var touch_ids: Dictionary = {}
 var mouse_held: bool = false
 var keyboard_held: bool = false
@@ -8,10 +10,13 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		if event.pressed:
 			touch_ids[event.index] = true
+			pointer_pressed.emit()
 		else:
 			touch_ids.erase(event.index)
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		mouse_held = event.pressed
+		if event.pressed:
+			pointer_pressed.emit()
 	elif event is InputEventKey and event.physical_keycode == KEY_SPACE:
 		keyboard_held = event.pressed
 

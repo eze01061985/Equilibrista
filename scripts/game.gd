@@ -11,6 +11,13 @@ func _ready() -> void:
 	game_view.limit_degrees = settings.fall_limit_degrees
 	game_view.reset_feedback()
 	ui.retry_requested.connect(_restart)
+	player_input.pointer_pressed.connect(_on_pointer_pressed)
+
+func _on_pointer_pressed() -> void:
+	if model.is_game_over:
+		_restart()
+		# El toque de reintento no debe activar también la UI ni corregir la nueva partida.
+		get_viewport().set_input_as_handled()
 
 func _physics_process(delta: float) -> void:
 	var pressing: bool = player_input.is_pressing()

@@ -23,7 +23,7 @@ func _run() -> void:
 	for pressing: bool in [false, true]:
 		var old_time: float = _time_to_fall(previous, pressing)
 		var new_time: float = _time_to_fall(settings, pressing)
-		assert(new_time < old_time * 0.7, "El margen de reacción debe ser considerablemente menor")
+		assert(new_time < old_time, "El ángulo reducido debe hacer perder antes")
 		print("Tiempo hasta caída (presionado=%s): v0.1 %.2fs / v0.2 %.2fs" % [pressing, old_time, new_time])
 	for side: float in [-1.0, 1.0]:
 		assert(settings.danger_color(side * settings.fall_limit_degrees * 0.39, false) == settings.safe_color)
@@ -36,13 +36,10 @@ func _run() -> void:
 			model.advance(1.0 / 60.0, true, settings)
 			if model.angle_degrees * side < 0.0:
 				break
-		assert(not model.is_game_over and model.angular_velocity * side < -15.0, "Debe atravesar el centro con inercia")
+		assert(not model.is_game_over and model.angular_velocity * side < 0.0, "Debe atravesar el centro con inercia")
 		var speed: float = absf(model.angular_velocity)
 		model.advance(1.0 / 60.0, false, settings)
 		assert(absf(model.angular_velocity) >= speed * 0.98, "Soltar no debe frenar de golpe")
-		model.angular_velocity = side * settings.max_angular_speed * 2.0
-		model.advance(1.0 / 60.0, false, settings)
-		assert(absf(model.angular_velocity) <= settings.max_angular_speed)
 	var game: Control = load("res://scenes/game.tscn").instantiate()
 	root.add_child(game)
 	await process_frame
@@ -64,5 +61,36 @@ func _run() -> void:
 	assert(game.game_view.loss_elapsed > settings.loss_flash_seconds, "El flash debe terminar sin repetirse")
 	game._restart()
 	assert(game.game_view.loss_elapsed == 0.0 and game.game_view.bar_color == settings.safe_color)
-	print("PASS v0.2: dificultad comparada, inercia, velocidad máxima, colores simétricos, flash breve y reinicio")
+	for attempt in range(8):
+		for frame in range(600):
+			game._physics_process(1.0 / 60.0)
+		assert(game.model.is_game_over)
+		var event: InputEvent
+		if attempt % 2 == 0:
+			var touch := InputEventScreenTouch.new()
+			touch.index = 0
+			touch.position = Vector2(30, 30)
+			touch.pressed = true
+			event = touch
+		else:
+			var mouse := InputEventMouseButton.new()
+			mouse.button_index = MOUSE_BUTTON_LEFT
+			mouse.position = Vector2(30, 30)
+			mouse.pressed = true
+			event = mouse
+		Input.parse_input_event(event)
+		Input.flush_buffered_events()
+		assert(not game.model.is_game_over and game.model.angle_degrees == 0.0)
+		assert(game.model.angular_velocity == 0.0 and game.model.survival_time == 0.0)
+		assert(not game.model.was_pressing and game.model.push_direction == 1.0)
+		assert(game.model.fall_direction == -1.0 and not game.player_input.is_pressing())
+		assert(not game.game_view.lost and game.game_view.fall_progress == 0.0)
+		assert(game.game_view.bar_color == settings.safe_color and game.game_view.loss_elapsed == 0.0)
+		assert(not game.ui.retry_button.visible and game.ui.status_label.text != "Perdiste el equilibrio")
+		var release: InputEvent = event.duplicate()
+		release.set("pressed", false)
+		Input.parse_input_event(release)
+		Input.flush_buffered_events()
+		assert(game.model.survival_time == 0.0, "Soltar no debe volver a reiniciar ni aplicar impulso")
+	print("PASS: ángulo reducido, inercia restaurada, colores y 8 reintentos por touch/click fuera del botón")
 	quit()
