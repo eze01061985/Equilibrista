@@ -8,6 +8,7 @@ var is_game_over: bool = false
 var fall_direction: float = -1.0
 var was_pressing: bool = false
 var push_direction: float = 1.0
+var has_corrected: bool = false
 
 func reset() -> void:
 	angle_degrees = 0.0
@@ -17,6 +18,7 @@ func reset() -> void:
 	fall_direction = -1.0
 	was_pressing = false
 	push_direction = 1.0
+	has_corrected = false
 
 func advance(delta: float, pressing: bool, settings: BalanceSettings) -> void:
 	if is_game_over:
@@ -26,7 +28,9 @@ func advance(delta: float, pressing: bool, settings: BalanceSettings) -> void:
 		fall_direction = signf(angle_degrees)
 	# Fijar el empuje por pulsación evita que mantener presionado equilibre automáticamente.
 	if pressing and not was_pressing:
-		push_direction = -fall_direction
+		# Solo la primera corrección elige lado automáticamente; las siguientes alternan.
+		push_direction = -push_direction if has_corrected else -fall_direction
+		has_corrected = true
 	was_pressing = pressing
 	var torque: float = fall_direction * settings.natural_torque
 	if pressing:

@@ -1,4 +1,4 @@
-# Equilibrista — Versión 0.2.1
+# Equilibrista — Versión 0.2.2
 
 Proyecto para Godot 4.6.1 estable, GDScript y renderizador Compatibility.
 Instalación detectada y utilizada:
@@ -41,7 +41,7 @@ Guardar la escena después de cambiar valores.
 | Sensitivity | 1 | Multiplicador de entrada del jugador |
 | Damping | 1.4 | Amortiguación de velocidad para facilitar correcciones |
 
-La partida comienza cayendo hacia la izquierda. La fuerza natural sigue el signo del ángulo; exactamente horizontal conserva el último lado. La velocidad mantiene su inercia. Cada pulsación elige una fuerza opuesta al lado inclinado al iniciarse. La dirección permanece fija hasta soltar, incluso al cruzar el centro: mantener presionado termina pasando la barra hacia el lado opuesto. Para corregir desde el nuevo lado hay que soltar y volver a pulsar. La corrección frena primero la inercia: no invierte instantáneamente la velocidad.
+La partida comienza cayendo hacia la izquierda. La fuerza natural sigue el signo del ángulo; exactamente horizontal conserva el último lado. La velocidad mantiene su inercia. La primera pulsación elige una fuerza opuesta al lado inclinado; cada nueva pulsación posterior invierte la dirección de empuje anterior, incluso si todavía no cruzó el centro. La dirección permanece fija hasta soltar, incluso al cruzar el centro: mantener presionado termina pasando la barra hacia el lado opuesto. Para corregir desde el nuevo lado hay que soltar y volver a pulsar. La corrección frena primero la inercia: no invierte instantáneamente la velocidad.
 
 El torque modifica la velocidad angular y esta modifica el ángulo en pasos
 de física. No usa una simulación física de cuerpos rígidos. El objeto permanece
@@ -84,6 +84,8 @@ produce caída en 0.72 s frente a 1 s. La prueba automática de control de 60 s 
 La sensación humana requiere volver a probarlo; touch se validó con eventos
 simulados en Godot, no en un teléfono físico.
 
+La corrección 0.2.2 elimina la selección automática hacia el centro en cada tap: ese comportamiento permitía estabilizar con taps periódicos. No había impulsos extra. El input sigue siendo un estado y el torque se integra por delta. Se mantienen todos los parámetros, UI, colores y reintento. No se agregan cooldowns. tests/tap_input_test.gd cubre eventos duplicados, presión acumulada equivalente, spam y reintento con mouse y touch simulado. Los patrones de spam antes sobrevivían 120 s; ahora caen entre 1.37 y 1.45 s. Mantener una pulsación conserva exactamente la trayectoria anterior; alternar pulsaciones deliberadamente cambia de dirección y exige dosificarlas.
+
 ## Validación
 
 Desde esta carpeta, usando el ejecutable console de la instalación:
@@ -113,7 +115,7 @@ sin Gradle: no fue necesario instalar NDK ni CMake para este APK.
 Se activó la importación ETC2/ASTC requerida por el exportador y se agregó un ícono
 simple basado en las primitivas del juego.
 
-Resultado v0.2.1: builds/Equilibrista-0.2.1.apk, firmado para pruebas, ARM de 32 y 64 bits.
+Resultado v0.2.2: builds/Equilibrista-0.2.2.apk, firmado para pruebas, ARM de 32 y 64 bits.
 Para regenerarlo, abrir Proyecto > Exportar > Android > Exportar proyecto con
 la opción de depuración activada, o ejecutar desde esta carpeta:
 
@@ -135,10 +137,3 @@ Referencia: https://docs.godotengine.org/en/4.6/tutorials/export/exporting_for_a
 Sin monedas, tienda, skins, anuncios, login, backend, niveles, historia,
 multijugador, logros ni progreso. Sin assets externos, física perfecta ni
 arquitectura empresarial.
-
-
-
-
-
-
-

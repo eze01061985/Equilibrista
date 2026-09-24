@@ -65,7 +65,8 @@ func _run() -> void:
 		assert(held.angular_velocity > 0.0, "Reiniciar debe limpiar la dirección de la pulsación anterior")
 	var controlled := BalanceModel.new()
 	for frame in range(3600):
-		var correction: bool = controlled.angle_degrees + controlled.angular_velocity * 0.5 < -3.0
+		var desired_direction: float = -signf(controlled.angle_degrees + controlled.angular_velocity * 0.5)
+		var correction: bool = not controlled.was_pressing or desired_direction == controlled.push_direction
 		controlled.advance(1.0 / 60.0, correction, settings)
 	assert(not controlled.is_game_over, "Las correcciones deben permitir sostener el equilibrio")
 	var game: Control = load("res://scenes/game.tscn").instantiate()
