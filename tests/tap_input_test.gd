@@ -22,6 +22,8 @@ func _send_pointer(touch: bool, pressed: bool) -> void:
 
 func _run() -> void:
 	var game: Control = load("res://scenes/game.tscn").instantiate()
+	game.analytics.record_path = "user://regression_test_record.cfg"
+	game.analytics.debug_logging = false
 	root.add_child(game)
 	await process_frame
 	game.set_physics_process(false)

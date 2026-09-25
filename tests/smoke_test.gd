@@ -70,6 +70,8 @@ func _run() -> void:
 		controlled.advance(1.0 / 60.0, correction, settings)
 	assert(not controlled.is_game_over, "Las correcciones deben permitir sostener el equilibrio")
 	var game: Control = load("res://scenes/game.tscn").instantiate()
+	game.analytics.record_path = "user://regression_test_record.cfg"
+	game.analytics.debug_logging = false
 	root.add_child(game)
 	await process_frame
 	game.set_physics_process(false)
@@ -123,5 +125,3 @@ func _run() -> void:
 		root.get_texture().get_image().save_png("user://smoke-test.png")
 	print("PASS: caída izquierda/derecha, reloj, control 60s, touch, mouse, espacio y reintento")
 	quit()
-
-

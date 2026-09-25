@@ -41,6 +41,8 @@ func _run() -> void:
 		model.advance(1.0 / 60.0, false, settings)
 		assert(absf(model.angular_velocity) >= speed * 0.98, "Soltar no debe frenar de golpe")
 	var game: Control = load("res://scenes/game.tscn").instantiate()
+	game.analytics.record_path = "user://regression_test_record.cfg"
+	game.analytics.debug_logging = false
 	root.add_child(game)
 	await process_frame
 	game.set_physics_process(false)
