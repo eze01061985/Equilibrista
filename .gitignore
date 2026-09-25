@@ -4,3 +4,5 @@ builds/
 *.jks
 .godot/export_credentials.cfg
 android/build/
+google-services.json
+android/.build_version
