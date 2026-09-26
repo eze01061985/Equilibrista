@@ -15,8 +15,8 @@ if (-not (Test-Path -LiteralPath $configPath)) {
     exit 0
 }
 $config = Get-Content -LiteralPath $configPath -Raw | ConvertFrom-Json
-$matching = @($config.client | Where-Object { $_.client_info.android_client_info.package_name -eq 'org.experimental.equilibrista' })
+$matching = @($config.client | Where-Object { $_.client_info.android_client_info.package_name -eq 'com.ezequielflores.equilibrista' })
 if ($matching.Count -eq 0) {
-    throw 'google-services.json no contiene el paquete org.experimental.equilibrista.'
+    throw 'google-services.json no contiene el paquete com.ezequielflores.equilibrista.'
 }
 Write-Output 'Configuración lista. Exportá con el preset Android Analytics.'
