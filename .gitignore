@@ -6,3 +6,9 @@ builds/
 android/build/
 google-services.json
 android/.build_version
+
+*.aab
+*.p12
+*.pfx
+*.password
+releases/
