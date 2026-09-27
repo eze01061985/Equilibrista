@@ -3,6 +3,7 @@ extends Control
 @export var settings: BalanceSettings
 var model := BalanceModel.new()
 var analytics := AnalyticsService.new()
+var audio := GameAudio.new()
 @onready var player_input: Node = $PlayerInput
 @onready var game_view: Control = $GameView
 @onready var ui: Control = $UI
@@ -13,8 +14,21 @@ func _ready() -> void:
 	game_view.reset_feedback()
 	ui.retry_requested.connect(_restart)
 	player_input.pointer_pressed.connect(_on_pointer_pressed)
+	add_child(audio)
 	add_child(analytics)
+	ui.set_record(analytics.best_seconds)
+	analytics.event_recorded.connect(_on_analytics_event)
 	analytics.track_game_started()
+
+func _on_analytics_event(event_name: String, parameters: Dictionary) -> void:
+	# Mostrar el resultado que ya decidió Analytics, sin recalcular ni guardar el récord.
+	if event_name == "game_started":
+		audio.play_start()
+	elif event_name == "game_over":
+		var new_record: bool = parameters.is_new_record == 1
+		ui.set_record(analytics.best_seconds, new_record)
+		ui.update_run(model.survival_time, true)
+		audio.play_result(new_record)
 
 func _on_pointer_pressed() -> void:
 	if model.is_game_over:
