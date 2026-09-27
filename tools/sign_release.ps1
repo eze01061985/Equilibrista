@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$KeystorePath = "$env:USERPROFILE\.android\keystores\Equilibrista\equilibrista-upload.jks",
     [string]$Alias = 'equilibrista-upload',
     [string]$JavaPath = "$env:LOCALAPPDATA\EquilibristaTools\jdk\jdk-17.0.20.1+1"

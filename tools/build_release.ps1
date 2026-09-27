@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$GodotPath = "$env:USERPROFILE\Downloads\Godot_v4.6.1-stable_win64.exe\Godot_v4.6.1-stable_win64.exe",
     [string]$SdkPath = "$env:LOCALAPPDATA\Android\Sdk",
     [string]$JavaPath = "$env:LOCALAPPDATA\EquilibristaTools\jdk\jdk-17.0.20.1+1"

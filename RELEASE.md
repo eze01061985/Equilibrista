@@ -16,8 +16,8 @@ SDK 36 y AGP 8.9.1 fueron autorizados el 27/09/2026. AGP/compileSdk se ajustan e
 Desde la raíz del proyecto, en PowerShell:
 
 ```powershell
-.\tools\build_release.ps1
-.\tools\sign_release.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\build_release.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\sign_release.ps1
 ```
 
 El primer script comprueba herramientas, copia el proyecto a `%LOCALAPPDATA%/EquilibristaTools/release-<id>`, excluye assets generados de exportaciones previas (evita duplicados entre base y asset pack), aplica los ajustes autorizados y exporta con `--export-release`. La copia usa firma interna desactivada: genera `builds/Equilibrista-0.2.4-unsigned.aab`, que NO debe subirse a Play. El preset versionado conserva firma habilitada; el flujo reproducible soportado son estos scripts, porque aplican AGP/SDK en la copia temporal y separan la firma. No guardar contraseñas en Godot.
@@ -46,7 +46,11 @@ Usar bundletool oficial 1.18.3 para `validate`, `dump manifest` y `dump config`,
 
 Verificado el 27/09/2026: exportación release completa y reproducible, bundletool validate correcto, package/version/SDK correctos, sin debuggable, ARMv7 y ARM64, configuración Firebase coincidente y restricciones de privacidad conservadas. Bundle con PAGE_ALIGNMENT_16K y todas las bibliotecas ARM64 con segmentos PT_LOAD alineados a 16384. Test automatizado RC1 aprobado (JUGAR mouse/touch, tres relaciones de aspecto, récord, seis derrotas/reintentos y eventos sin duplicados). Sin cambios en scripts, escenas ni addons respecto de RC1. No se realizó una prueba física de este AAB aún.
 
-Build unsigned: 53218141 bytes; SHA256 `7f313a05fd72c96a72014893bb73092f43bdff87a1772cafb2e9da6628ddcc5e`. Keystore y firma pendientes de contraseña elegida por el usuario. No considerar el unsigned un entregable de publicación.
+Build unsigned: 53218141 bytes; SHA256 `7f313a05fd72c96a72014893bb73092f43bdff87a1772cafb2e9da6628ddcc5e`. El unsigned es únicamente intermedio; no subirlo a Play.
+
+AAB final firmado: `releases/Equilibrista-0.2.4-release.aab`, 53241101 bytes. SHA256: `97ca69914b183665e354ace5bafdbd5af188f69d5ea260949d880f34ceb27e1c`. Firma y bundletool validate aprobados; todos los contenidos originales coinciden byte a byte con el unsigned validado. Certificado de carga nuevo, CN=Equilibrista Upload, RSA 3072, válido hasta 12/02/2054. Huella SHA256: `55:28:41:B9:44:D6:7F:92:AF:34:03:A5:1B:F8:64:7D:7A:B5:CA:F9:CF:09:5F:50:DC:B1:BD:C2:8E:A1:83:29`. Coincide con el certificado público exportado. Contraseña elegida e ingresada localmente por el usuario.
+
+Los avisos de jarsigner sobre certificado autofirmado/cadena no confiable y ausencia de timestamp son esperables para esta clave de carga; la firma criptográfica se verificó. El aviso de keytool sobre formato JKS no requiere regenerar ni migrar la clave. Respaldo del keystore a cargo del usuario.
 
 Warnings no bloqueantes del toolchain: android.overridePathCheck experimental, lector SDK XML v3 frente a metadatos v4, directivas de merge del manifest sin otra declaración y bibliotecas nativas empaquetadas sin stripping adicional. No hay errores de exportación ni de scripts. No se instalaron componentes extra para silenciar estos avisos.
 
