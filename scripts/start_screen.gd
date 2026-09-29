@@ -1,5 +1,8 @@
 extends Control
 
+const PRIVACY_URL := "https://eze01061985.github.io/Equilibrista/privacy/"
+
+var privacy_link: LinkButton
 var play_button: Button
 var header: VBoxContainer
 var footer: VBoxContainer
@@ -25,6 +28,13 @@ func _ready() -> void:
 	play_button = Presentation.button("JUGAR")
 	play_button.pressed.connect(_play)
 	footer.add_child(play_button)
+	privacy_link = LinkButton.new()
+	privacy_link.text = "Política de privacidad"
+	privacy_link.custom_minimum_size.y = 44
+	privacy_link.add_theme_font_size_override("font_size", 18)
+	privacy_link.add_theme_color_override("font_color", Presentation.MUTED)
+	privacy_link.pressed.connect(_open_privacy)
+	add_child(privacy_link)
 	resized.connect(_layout)
 	_layout.call_deferred()
 
@@ -34,12 +44,23 @@ func _layout() -> void:
 	header.size = Vector2(safe.size.x, 120)
 	footer.position = Vector2(safe.position.x, safe.end.y - 136)
 	footer.size = Vector2(safe.size.x, 76)
+	privacy_link.size = privacy_link.get_combined_minimum_size()
+	privacy_link.position = Vector2(safe.position.x + (safe.size.x - privacy_link.size.x) / 2.0, safe.end.y - 44)
 
 func _input(event: InputEvent) -> void:
+	if event is InputEventScreenTouch and event.pressed and privacy_link.get_global_rect().has_point(event.position):
+		get_viewport().set_input_as_handled()
+		_open_privacy()
+		return
 	# No emulamos mouse desde touch: el botón recibe el toque explícitamente.
 	if event is InputEventScreenTouch and event.pressed and play_button.get_global_rect().has_point(event.position):
 		get_viewport().set_input_as_handled()
 		_play()
+
+func _open_privacy() -> void:
+	var error := OS.shell_open(PRIVACY_URL)
+	if error != OK:
+		push_warning("No se pudo abrir la política de privacidad: %s" % error)
 
 func _play() -> void:
 	if starting:

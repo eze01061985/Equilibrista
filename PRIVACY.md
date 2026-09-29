@@ -1,8 +1,12 @@
 # Publicación de la política de privacidad
 
-## Estado — 28/09/2026
+## Estado — 29/09/2026
 
-Borrador preparado en `docs/privacy/index.html`; contacto público y soporte: `ezequielflores.dev@gmail.com`. No publicado todavía: esta copia Git no tiene remoto y el conector de GitHub no devuelve repositorios accesibles. Se solicitó al propietario la URL del repositorio actual. No se inventó una URL ni se agregó un enlace inoperante al juego.
+Política publicada: https://eze01061985.github.io/Equilibrista/privacy/
+
+Repositorio público: https://github.com/eze01061985/Equilibrista. Rama principal: `master`. GitHub Pages publica `/docs` desde esa rama, con HTTPS. Se conservó todo el historial Git local. Contacto público y soporte: `ezequielflores.dev@gmail.com`.
+
+Pantalla inicial: enlace secundario «Política de privacidad», abre el navegador externo mediante `OS.shell_open`. Sin WebView ni eventos nuevos. La posición y comportamiento de JUGAR permanecen iguales.
 
 ## Revisión de datos
 
@@ -26,17 +30,25 @@ Fuentes consultadas:
 
 No se cambiaron eventos ni configuración de Analytics. La revisión de código no reemplaza revisar retención, Google Signals y vínculos publicitarios de la consola antes de completar Data Safety.
 
-## Comprobaciones del borrador
+## Comprobaciones realizadas
 
-Página abierta en Chrome por servidor local. Diseño de escritorio y viewport móvil 360 × 800 revisados; sin desbordamiento horizontal, sin scripts ni formularios. CSS y fuentes del sistema, sin dependencias externas. Android no conectado por ADB al revisar.
+- HTTP 200 por HTTPS sin cookies ni autenticación, contenido idéntico al HTML local.
+- Página pública revisada en Chrome en escritorio y viewport 360 × 800: sin desbordamiento horizontal. HTML publicado sin scripts, formularios ni dependencias externas.
+- Godot ejecutado con renderizado en PC. Click y touch simulados desde `tests/privacy_link_test.gd -- --open-browser` abrieron dos pestañas externas con la URL correcta; cada entrada abrió una sola vez y mantuvo el menú.
+- Prueba del retorno al menú, JUGAR, derrota por simulación física y reintento. Test RC1 aprobado en tres relaciones de aspecto con seis derrotas/reintentos. Test de Analytics aprobado, sin cambios en sus eventos ni parámetros. Sin errores o warnings GDScript en estas pruebas.
+- Android físico no probado: `adb devices` no detectó dispositivos conectados.
+- Revisión del historial completo antes del push: sin archivos de credenciales/keystore/APK/AAB ni coincidencias con los patrones de secretos comprobados. Exclusiones de APK y .env reforzadas. `project.godot` conserva un cambio local previo de formato, no incluido en los commits de esta tarea.
 
-## Pendiente al disponer del repositorio
+Para volver a probar la apertura real del navegador en PC:
 
-1. Confirmar remoto, visibilidad, rama y configuración Pages existente. No hacer público un repositorio privado sin autorización.
-2. Publicar `/docs` en la rama apropiada, sin servicios pagos ni dominio propio.
-3. Verificar HTTPS sin autenticación y diseño desktop/móvil en la URL definitiva.
-4. Agregar esa URL comprobada en un enlace discreto de la pantalla inicial mediante `OS.shell_open`, con mouse y touch, sin evento Analytics.
-5. Ejecutar las pruebas de PC y Android si está disponible; documentar la URL para Play Console en RELEASE.md.
-6. Generar un nuevo artefacto de distribución cuando el enlace esté integrado: el AAB firmado anterior no contiene este cambio.
+```text
+Godot --path . --script tests/privacy_link_test.gd -- --open-browser
+```
 
-La política no sustituye las declaraciones de Data Safety, la definición de público objetivo ni la revisión de consentimiento para los mercados de distribución. No se modifican esas decisiones en esta tarea.
+Sin `--open-browser`, el test comprueba el despacho de input sin lanzar navegadores. El test RC1 existente comprueba además los estados y eventos de partidas consecutivas.
+
+## Para Google Play
+
+Pegar https://eze01061985.github.io/Equilibrista/privacy/ en el campo Política de privacidad. No se cambió Play Console en esta tarea.
+
+El AAB firmado anterior no contiene el enlace: compilar y firmar un nuevo artefacto antes de publicar el juego actualizado. Probar también en Android físico. Completar Data Safety y público objetivo conforme a la configuración real; revisar conservación y consentimiento para los mercados elegidos. Esta tarea no cambia esas decisiones.

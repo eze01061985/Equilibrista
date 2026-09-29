@@ -61,3 +61,12 @@ Warnings no bloqueantes del toolchain: android.overridePathCheck experimental, l
 Sin cambios en gameplay, UI, audio, récord, física, controles o código/eventos de Analytics. No se publicó, subió ni aceptó ningún acuerdo de Play. Firebase sigue en Spark y no se habilitó billing.
 
 Referencias: [target API de Play](https://support.google.com/googleplay/android-developer/answer/11926878?hl=es), [compatibilidad AGP](https://developer.android.com/build/releases/about-agp), [bundletool](https://github.com/google/bundletool/releases/tag/1.18.3).
+
+## Política de privacidad — 29/09/2026
+
+URL pública para Google Play Console → Política de privacidad:
+https://eze01061985.github.io/Equilibrista/privacy/
+
+GitHub Pages activo desde `master /docs` en https://github.com/eze01061985/Equilibrista. Contacto: `ezequielflores.dev@gmail.com`. El código actual incluye el enlace externo en la pantalla inicial, sin modificar gameplay o Analytics. Ver `PRIVACY.md` para las pruebas.
+
+**El AAB 0.2.4 firmado previamente no incluye este enlace.** Debe recompilarse y firmarse una nueva entrega del código actualizado; conservar el artefacto anterior y respetar el incremento de versionCode si ya se subió a Play. Android físico pendiente para este enlace. No se publicó ninguna aplicación en Play durante esta tarea.
