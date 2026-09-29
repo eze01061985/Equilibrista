@@ -12,3 +12,7 @@ android/.build_version
 *.pfx
 *.password
 releases/
+
+*.apk
+.env
+.env.*
