@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Política de privacidad de Equilibrista, un juego de Damero.Dev. Información sobre datos de uso, Firebase Analytics y contacto.">
+  <title>Política de Privacidad de Equilibrista</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #202c3b; background: #f4f6f8; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-size: 1rem; line-height: 1.7; }
+    main { max-width: 48rem; margin: 2rem auto; padding: clamp(1.25rem, 5vw, 3rem); background: #fff; border: 1px solid #dce2e9; border-radius: 12px; }
+    .brand, .updated { color: #536174; }
+    .brand { font-weight: 600; margin: 0 0 .5rem; }
+    h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1.2; margin: 0 0 1rem; }
+    h2 { font-size: 1.2rem; line-height: 1.35; margin: 2rem 0 .6rem; }
+    p, ul { margin: .6rem 0 1rem; }
+    ul { padding-left: 1.3rem; }
+    a { color: #175394; text-underline-offset: .2em; overflow-wrap: anywhere; }
+    a:focus-visible { outline: 3px solid #175394; outline-offset: 4px; }
+    code { overflow-wrap: anywhere; font-size: .95em; }
+    footer { border-top: 1px solid #dce2e9; margin-top: 2rem; padding-top: 1rem; font-size: .9rem; color: #536174; }
+    @media (max-width: 50rem) { main { margin: 0; border: 0; border-radius: 0; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="brand">Equilibrista · Damero.Dev</p>
+    <h1>Política de Privacidad de Equilibrista</h1>
+    <p class="updated">Última actualización: septiembre de 2026</p>
+    <p>Esta política explica cómo Equilibrista, desarrollado por Damero.Dev, utiliza información del juego y cómo contactarnos sobre privacidad.</p>
+  </header>
+  <section aria-labelledby="directa">
+    <h2 id="directa">Información que no solicitamos directamente</h2>
+    <p>Equilibrista no pide tu nombre, correo electrónico, teléfono, ubicación precisa ni acceso a contactos. No necesitas crear una cuenta ni iniciar sesión. Actualmente no hay compras dentro del juego, anuncios ni un backend propio.</p>
+  </section>
+  <section aria-labelledby="analytics">
+    <h2 id="analytics">Google Analytics for Firebase</h2>
+    <p>La versión Android con analítica utiliza Google Analytics for Firebase para comprender el uso y funcionamiento del juego. El SDK puede procesar aperturas y sesiones, modelo de dispositivo, sistema operativo, versión y datos técnicos de la aplicación, interacciones e identificadores técnicos asociados a la instalación. También puede obtener ubicación aproximada a partir de la dirección IP; no solicitamos ubicación GPS.</p>
+    <p>Estos datos no son totalmente anónimos: Firebase utiliza identificadores técnicos, como el identificador de instancia de la aplicación. El juego no les asigna un nombre, una dirección de correo ni una cuenta de jugador.</p>
+  </section>
+  <section aria-labelledby="eventos">
+    <h2 id="eventos">Eventos del juego</h2>
+    <ul>
+      <li><code>game_started</code>: inicio de partida y número de intento.</li>
+      <li><code>game_over</code>: finalización de partida, duración en segundos, número de intento e indicador de nuevo récord.</li>
+      <li><code>retry</code>: reintento y número de la partida anterior.</li>
+    </ul>
+    <p>Los parámetros propios de estos eventos son numéricos y no contienen información personal introducida por el jugador. El SDK también genera eventos automáticos de uso. No registramos un evento propio al abrir esta política.</p>
+  </section>
+  <section aria-labelledby="finalidad">
+    <h2 id="finalidad">Para qué usamos los datos</h2>
+    <p>Utilizamos la información analítica para comprender cómo se juega, medir la interacción, detectar posibles problemas de uso y mejorar el producto. No incorporamos un servicio de informes de fallos como Crashlytics.</p>
+  </section>
+  <section aria-labelledby="publicidad">
+    <h2 id="publicidad">Publicidad</h2>
+    <p>Actualmente Equilibrista no muestra anuncios ni utiliza AdMob. La recopilación del identificador publicitario y las señales de personalización publicitaria están deshabilitadas en la configuración de la aplicación. No utilizamos Analytics para publicidad personalizada.</p>
+  </section>
+  <section aria-labelledby="terceros">
+    <h2 id="terceros">Servicios de terceros</h2>
+    <p>Los datos analíticos son tratados a través de Google Firebase / Google Analytics for Firebase. Puedes consultar su información oficial:</p>
+    <ul>
+      <li><a href="https://policies.google.com/privacy?hl=es">Política de Privacidad de Google</a>.</li>
+      <li><a href="https://firebase.google.com/support/privacy">Privacidad y seguridad en Firebase</a>.</li>
+      <li><a href="https://support.google.com/analytics/answer/11582702?hl=es">Datos tratados por el SDK de Analytics para Android</a>.</li>
+    </ul>
+  </section>
+  <section aria-labelledby="conservacion">
+    <h2 id="conservacion">Conservación y consultas sobre tus datos</h2>
+    <p>Equilibrista no mantiene una base propia de perfiles de jugadores. El récord se guarda localmente en el dispositivo. Los datos analíticos se gestionan en Firebase / Google Analytics conforme a la configuración de conservación del servicio y sus políticas.</p>
+    <p>Puedes escribirnos para consultar sobre el tratamiento de datos o solicitar su eliminación cuando corresponda. Como no tenemos cuentas de jugadores ni vinculamos los eventos con nombres o correos, puede ser necesario determinar si es posible identificar los registros relacionados con tu instalación. Borrar los datos locales del juego no implica borrar automáticamente los datos analíticos ya enviados.</p>
+  </section>
+  <section aria-labelledby="menores">
+    <h2 id="menores">Menores</h2>
+    <p>No solicitamos la edad ni datos de contacto de los jugadores. Si eres madre, padre o tutor y tienes dudas sobre el uso del juego o sus datos analíticos por un menor, contactanos. Esta política no declara una clasificación por edades ni una certificación para público infantil.</p>
+  </section>
+  <section aria-labelledby="pagina">
+    <h2 id="pagina">Esta página</h2>
+    <p>Esta página no incorpora cookies, analítica, rastreadores, formularios ni JavaScript. Está alojada en GitHub Pages; GitHub puede procesar datos técnicos de las visitas para prestar y proteger el alojamiento, conforme a su <a href="https://docs.github.com/es/site-policy/privacy-policies/github-general-privacy-statement">declaración de privacidad</a>.</p>
+  </section>
+  <section aria-labelledby="contacto">
+    <h2 id="contacto">Contacto y cambios</h2>
+    <p>Responsable del juego: Damero.Dev. Para consultas de privacidad o soporte: <a href="mailto:ezequielflores.dev@gmail.com">ezequielflores.dev@gmail.com</a>. Si nos escribís, recibiremos tu dirección de correo y el contenido del mensaje para atender tu consulta; no los incluimos en los eventos del juego.</p>
+    <p>Actualizaremos esta política si cambian las funciones del juego o el tratamiento de datos, indicando aquí la fecha de actualización.</p>
+  </section>
+  <footer>Equilibrista · Política de privacidad</footer>
+</main>
+</body>
+</html>
