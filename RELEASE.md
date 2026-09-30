@@ -69,4 +69,4 @@ https://eze01061985.github.io/Equilibrista/privacy/
 
 GitHub Pages activo desde `master /docs` en https://github.com/eze01061985/Equilibrista. Contacto: `ezequielflores.dev@gmail.com`. El código actual incluye el enlace externo en la pantalla inicial, sin modificar gameplay o Analytics. Ver `PRIVACY.md` para las pruebas.
 
-**El AAB 0.2.4 firmado previamente no incluye este enlace.** Debe recompilarse y firmarse una nueva entrega del código actualizado; conservar el artefacto anterior y respetar el incremento de versionCode si ya se subió a Play. Android físico pendiente para este enlace. No se publicó ninguna aplicación en Play durante esta tarea.
+**El AAB 0.2.4 firmado previamente no incluye este enlace.** Debe recompilarse y firmarse una nueva entrega del código actualizado; conservar el artefacto anterior y respetar el incremento de versionCode si ya se subió a Play. Enlace y regreso al juego probados por el usuario en Android físico con APK debug, incluyendo dos reintentos; récord conservado. No se publicó ninguna aplicación en Play durante esta tarea.

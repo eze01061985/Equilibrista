@@ -36,7 +36,7 @@ No se cambiaron eventos ni configuración de Analytics. La revisión de código 
 - Página pública revisada en Chrome en escritorio y viewport 360 × 800: sin desbordamiento horizontal. HTML publicado sin scripts, formularios ni dependencias externas.
 - Godot ejecutado con renderizado en PC. Click y touch simulados desde `tests/privacy_link_test.gd -- --open-browser` abrieron dos pestañas externas con la URL correcta; cada entrada abrió una sola vez y mantuvo el menú.
 - Prueba del retorno al menú, JUGAR, derrota por simulación física y reintento. Test RC1 aprobado en tres relaciones de aspecto con seis derrotas/reintentos. Test de Analytics aprobado, sin cambios en sus eventos ni parámetros. Sin errores o warnings GDScript en estas pruebas.
-- Android físico no probado: `adb devices` no detectó dispositivos conectados.
+- Android físico: APK debug con Firebase instalado mediante `adb install -r`, sin borrar datos. Récord de 11,6 s conservado. El usuario confirmó apertura de la política en navegador, vuelta al juego, partida y dos reintentos correctos, con presentación y control intactos. Exportación sin errores de scripts. Al revisar posteriormente los logs, el proceso del juego ya no estaba disponible; no se afirma una revisión completa del log de esa sesión ni una nueva comprobación en Firebase DebugView.
 - Revisión del historial completo antes del push: sin archivos de credenciales/keystore/APK/AAB ni coincidencias con los patrones de secretos comprobados. Exclusiones de APK y .env reforzadas. `project.godot` conserva un cambio local previo de formato, no incluido en los commits de esta tarea.
 
 Para volver a probar la apertura real del navegador en PC:
@@ -51,4 +51,4 @@ Sin `--open-browser`, el test comprueba el despacho de input sin lanzar navegado
 
 Pegar https://eze01061985.github.io/Equilibrista/privacy/ en el campo Política de privacidad. No se cambió Play Console en esta tarea.
 
-El AAB firmado anterior no contiene el enlace: compilar y firmar un nuevo artefacto antes de publicar el juego actualizado. Probar también en Android físico. Completar Data Safety y público objetivo conforme a la configuración real; revisar conservación y consentimiento para los mercados elegidos. Esta tarea no cambia esas decisiones.
+El AAB firmado anterior no contiene el enlace: compilar y firmar un nuevo artefacto antes de publicar el juego actualizado. Completar Data Safety y público objetivo conforme a la configuración real; revisar conservación y consentimiento para los mercados elegidos. Esta tarea no cambia esas decisiones.
