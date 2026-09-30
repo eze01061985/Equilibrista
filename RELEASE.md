@@ -6,7 +6,7 @@ Ejecutar `tools/build_release.ps1` y luego `tools/sign_release.ps1` desde PowerS
 
 Keystore: `C:/Users/damer/.android/keystores/Equilibrista/equilibrista-upload.jks`, alias `equilibrista-upload`. Certificado esperado SHA256: `55:28:41:B9:44:D6:7F:92:AF:34:03:A5:1B:F8:64:7D:7A:B5:CA:F9:CF:09:5F:50:DC:B1:BD:C2:8E:A1:83:29`.
 
-Estado: compilación/verificación en curso; firma pendiente de contraseña del propietario. No subir el archivo unsigned. El AAB 0.2.4 (7) se conserva. Próximo versionCode después de esta entrega: 9, si no se usó otro superior. No se publicó nada en Play Console.
+Estado: AAB firmado y verificado con jarsigner y bundletool validate. Mismo certificado de carga de 0.2.4; contenido idéntico al unsigned validado salvo firma. Versión 0.2.5 (8), package, no-debug, SDK36, Firebase, URL en el script compilado y compatibilidad ARM64 16KB comprobados. Archivo final: `releases/Equilibrista-0.2.5-release.aab` (53241850 bytes), SHA256 `75d4d109aedc446423420e78cd625f2b8e455c6efcec7b7116edcd4e6e74ee6b`. Advertencias esperables de certificado autofirmado/cadena y ausencia de timestamp, sin errores de validación. APK debug equivalente instalado en Android como actualización, récord 11,6 s conservado. Pruebas automatizadas de privacidad y RC1 aprobadas. Pendiente: confirmación del usuario del recorrido físico final en esta build 0.2.5. No subir el archivo unsigned. El AAB 0.2.4 (7) se conserva. Próximo versionCode después de esta entrega: 9, si no se usó otro superior. No se publicó nada en Play Console.
 
 ## Registro histórico de 0.2.4 (7)
 
