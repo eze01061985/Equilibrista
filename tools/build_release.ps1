@@ -38,8 +38,8 @@ $env:ANDROID_HOME = $SdkPath
 Write-Host "Copia de build: $workRoot"
 & $GodotPath --headless --path $workRoot --editor --import 2>&1 | Out-File -FilePath "$outputDirectory\release-import.log" -Encoding utf8
 if ($LASTEXITCODE -ne 0) { throw 'Falló la importación; revisar builds/release-import.log.' }
-$unsigned = Join-Path $workRoot 'builds\Equilibrista-0.2.4-unsigned.aab'
+$unsigned = Join-Path $workRoot 'builds\Equilibrista-0.2.5-unsigned.aab'
 & $GodotPath --headless --path $workRoot --export-release 'Android Release' $unsigned 2>&1 | Out-File -FilePath "$outputDirectory\release-export.log" -Encoding utf8
 if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $unsigned)) { throw 'Falló la exportación; revisar builds/release-export.log.' }
-Copy-Item -LiteralPath $unsigned -Destination "$outputDirectory\Equilibrista-0.2.4-unsigned.aab"
+Copy-Item -LiteralPath $unsigned -Destination "$outputDirectory\Equilibrista-0.2.5-unsigned.aab"
 Write-Host 'Bundle RELEASE compilado; todavía NO está firmado. Ejecutar tools/sign_release.ps1.'

@@ -1,4 +1,18 @@
-# Release Android — Equilibrista 0.2.4
+# Release Android — Equilibrista 0.2.5 (8)
+
+Preparación del 30/09/2026 desde `d17e81b`. Package `com.ezequielflores.equilibrista`, preset Android Release, target SDK 36, min SDK 24, ARM64 y ARMv7. Incluye el enlace https://eze01061985.github.io/Equilibrista/privacy/ ya probado en Android. Sin cambios en gameplay, UI o Analytics en esta actualización de versión.
+
+Ejecutar `tools/build_release.ps1` y luego `tools/sign_release.ps1` desde PowerShell. Si la política local bloquea scripts, usar `powershell.exe -NoProfile -ExecutionPolicy Bypass -File` seguido de la ruta al script. El resultado final esperado es `releases/Equilibrista-0.2.5-release.aab`. La firma solicita la contraseña localmente y reutiliza exclusivamente el keystore existente; si falta, se detiene sin generar claves nuevas. No compartir la contraseña por chat.
+
+Keystore: `C:/Users/damer/.android/keystores/Equilibrista/equilibrista-upload.jks`, alias `equilibrista-upload`. Certificado esperado SHA256: `55:28:41:B9:44:D6:7F:92:AF:34:03:A5:1B:F8:64:7D:7A:B5:CA:F9:CF:09:5F:50:DC:B1:BD:C2:8E:A1:83:29`.
+
+Estado: compilación/verificación en curso; firma pendiente de contraseña del propietario. No subir el archivo unsigned. El AAB 0.2.4 (7) se conserva. Próximo versionCode después de esta entrega: 9, si no se usó otro superior. No se publicó nada en Play Console.
+
+## Registro histórico de 0.2.4 (7)
+
+Los nombres y estados a continuación documentan la entrega anterior; los scripts actuales generan 0.2.5.
+
+### Entrega original 0.2.4
 
 ## Configuración
 
